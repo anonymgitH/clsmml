@@ -2,7 +2,7 @@
 import os
 import numpy as np
 import pandas as pd
-from CSLMML import causal_direction
+from clsmml import causal_direction
 
 
 def  estemated_direction(extracted_dir_path):
