@@ -30,7 +30,7 @@ def compute_mles(initial_values, x, y):
         log_lik = np.sum(t.logpdf(y,nu, loc=y_pred, scale=tau))
         return -log_lik  
     
-    bounds = [(-1, 1), (-1, 1), (10, np.inf), (1e-6, np.inf)]
+    bounds = [(-1, 1), (-1, 1), (200, 1000), (1e-6, np.inf)]
     result = minimize(log_likelihood, initial_values, args=(x, y), method='L-BFGS-B',bounds=bounds)
     beta0_mle, beta_mle,  nu_mle,tau_mle = result.x
     return beta0_mle, beta_mle, tau_mle, nu_mle
