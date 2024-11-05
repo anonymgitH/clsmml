@@ -24,6 +24,11 @@ def fit_student_t_distribution(y):
     return nu_hat, mu_hat, tau_hat
 
 def compute_mles(initial_values, x, y):
+ """
+ Computes the Maximum Likelihood Estimates (MLEs) of the model initial parameters for a robust regression 
+ using a Student's t-distribution to handle heavy-tailed errors.
+ The bounds of the parameters are flexible and can be adjusted if necessary to improve approximation accuracy based on dataset characteristics.
+ """
     def log_likelihood(params, x, y):
         beta_0, beta, nu, tau = params
         y_pred = beta_0 + beta * x
@@ -71,9 +76,12 @@ def likelihood_t(params, *args):
     return -likelihood
 
 
-# ALGORITHM 1
+# Algorithm 1  for computing l(ˆθ)
 def EM_algorithm(x,y, max_iterations=100, tolerance=1e-6):
-    
+    """
+    This function implements an Expectation-Maximization (EM) algorithm to fit a Student's t-distribution 
+    to data (x, y) and estimate model parameters for a robust regression setting.
+    """
     normalized_x, standardize_y = normalize_and_standardize(x,y)
     
     nu_hat, mu_hat, tau_hat = fit_student_t_distribution(standardize_y)
@@ -100,8 +108,11 @@ def EM_algorithm(x,y, max_iterations=100, tolerance=1e-6):
 
     return final_message_length,beta_mle, beta0_mle, tau_hat
 
-# ALGORITHM 2
+# Algorithm 2 for computing L(x) and L(y)
 def compute_L(x, y):
+    """
+    Computes the code for the marginal distribution of L(x) and L(y) pairwise minimum differences.
+    """
     
     def normalize(x):
         x = np.array(x)
@@ -131,14 +142,14 @@ def compute_L(x, y):
 
     return L_X, L_Y
 
-# ALGORITHM 3
+# Algorithm 3 for computing ∆X→Y
 def compute_delta_X_to_Y(x, y):
   L_X, L_Y=compute_L(x,y)
   L_params,beta_mle, beta0_mle, tau_hat=EM_algorithm(x,y)
   delta_X_to_Y=(L_X+L_params)/(L_X+L_Y)
   return delta_X_to_Y
 
-# ALGORITHM 4
+# Algorithm 4 for deciding causal direction
 def causal_direction(x, y):
     delta_X_to_Y= compute_delta_X_to_Y(x, y)
     delta_Y_to_X = compute_delta_X_to_Y(y, x)
