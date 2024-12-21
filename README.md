@@ -18,6 +18,15 @@ AN, AN-s, LS, LS-s and MN-U: [100, inf];
 
 SIM, SIM-ln, SIM-c, SIM-G: [10, inf].
 
+## 🛠️ **Dependencies**
+
+- Python 3.x  
+- NumPy  
+- SciPy  
+
+*(Installed via `install.sh`)*
+
+
 
 
 
